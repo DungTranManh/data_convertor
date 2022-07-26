@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-import pandas as pd
+import csv
 xml_file_name = 'JMnedict.xml'
 
 tree = ET.parse(xml_file_name)
@@ -8,7 +8,6 @@ root = tree.getroot()
 cols = ['ent_seq','keb','reb','name_type','trans_det']
 rows = list()
 res = tuple()
-i = 0
 for entry in root.findall("entry"):
     # storage components
     reb_storage = tuple()
@@ -30,15 +29,23 @@ for entry in root.findall("entry"):
     # get name_type and trans_det
     trans = entry.findall("trans")
     for i in range(len(trans)):
+
         name_type = trans[i].find("name_type")
-        name_type_storage += (name_type,)
+        if name_type is not None:
+            name_type_storage += (name_type.text,)
         trans_det = trans[i].findall("trans_det")
         for tmp in range(len(trans_det)):
             trans_det_com = trans_det[tmp].text
             trans_det_storage += (trans_det_com,)
-    res += ((ent_seq,keb_storage,reb_storage,trans_det_storage),)
-    i += 1
-    if i == 4:
-        break
-for i in range (5):
-    print(res[i])
+    rows.append([ent_seq,keb_storage,reb_storage,name_type_storage,trans_det_storage])
+
+with open('data.csv', 'w', encoding='UTF8', newline='') as f:
+    writer = csv.writer(f)
+
+    # write the header
+    writer.writerow(cols)
+
+    # write multiple rows
+    writer.writerows(rows)
+
+
