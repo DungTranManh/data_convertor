@@ -39,7 +39,7 @@ for entry in root.findall("entry"):
             trans_det_storage += (trans_det_com,)
     rows.append([ent_seq,keb_storage,reb_storage,name_type_storage,trans_det_storage])
 
-with open('data.csv', 'w', encoding='UTF8', newline='') as f:
+with open('data.csv', 'w', encoding='utf-8', newline='') as f:
     writer = csv.writer(f)
 
     # write the header
