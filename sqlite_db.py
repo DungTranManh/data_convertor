@@ -5,7 +5,7 @@ import csv
 
 conn = sqlite3.connect("data.db")
 cursor = conn.cursor()
-# cursor.execute("create table big_data (id INTEGER PRIMARY KEY AUTOINCREMENT, ent_seq INTERGER, keb text, reb text, name_type text, trans_det text)")
+cursor.execute("create table big_data (id INTEGER PRIMARY KEY AUTOINCREMENT, ent_seq INTERGER, keb text, reb text, name_type text, trans_det text)")
 
 file = open("data.csv",encoding="utf-8")
 contents = csv.reader(file)
